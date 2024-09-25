@@ -24,17 +24,16 @@ jobs:
         run: |
           ./build.sh
 
-      - name: Git push assets to "release" branch
-        run: |
-          mkdir publish
-          cp user.js publish
-          cp user.cfg publish
-          cd publish || exit 1
-          git init
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b release
-          git add .
-          git commit -m "${{ env.RELEASE_NAME }}"
-          git remote add remote "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u remote release
+      - name: Release and upload assets
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          name: ${{ env.RELEASE_NAME }}
+          tag_name: ${{ env.RELEASE_NAME }}
+          draft: false
+          prerelease: false
+          files: |
+            ./user.js
+            ./user.cfg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
