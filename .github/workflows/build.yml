@@ -31,8 +31,7 @@ jobs:
           tag_name: ${{ env.RELEASE_NAME }}
           draft: false
           prerelease: false
-          with:
-            files: |
-              user.js
-              user.cfg
+          files: |
+            user.js
+            user.cfg
 
