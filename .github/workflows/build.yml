@@ -1,0 +1,40 @@
+name: Generate Disgusting Domains List
+
+on:
+  schedule:
+    - cron: "0 0 * * 4"
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Set variables
+        run: |
+          echo "RELEASE_NAME=$(date +%Y%m%d)" >> $GITHUB_ENV
+          apt install wget -y
+        shell: bash
+
+      - name: Generate List
+        run: |
+          ./build.sh
+
+      - name: Git push assets to "release" branch
+        run: |
+          mkdir publish
+          cp user.js publish
+          cp user.cfg publish
+          cd publish || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b release
+          git add .
+          git commit -m "${{ env.RELEASE_NAME }}"
+          git remote add remote "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u remote release
