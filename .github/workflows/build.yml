@@ -1,4 +1,4 @@
-name: Generate Disgusting Domains List
+name: Generate user.js
 
 on:
   schedule:
