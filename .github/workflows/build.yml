@@ -17,7 +17,7 @@ jobs:
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(date +%Y%m%d)" >> $GITHUB_ENV
-          apt install wget -y
+          sudo apt install wget -y
         shell: bash
 
       - name: Generate List
