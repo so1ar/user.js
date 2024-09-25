@@ -16,7 +16,6 @@ jobs:
 
       - name: Set variables
         run: |
-          echo "RELEASE_NAME=$(date +%Y%m%d)" >> $GITHUB_ENV
           sudo apt install wget -y
         shell: bash
 
@@ -27,8 +26,8 @@ jobs:
       - name: Release and upload assets
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ env.RELEASE_NAME }}
-          tag_name: ${{ env.RELEASE_NAME }}
+          name: custom
+          tag_name: custom
           draft: false
           prerelease: false
           files: |
